@@ -1,7 +1,10 @@
 const prisma = require("../../../lib/prisma");
 const { noticeSchema, formatZodErrors } = require("../../../lib/validators");
 
-module.exports = async function handler(req, res) {
+module.exports = handler;
+module.exports.default = handler;
+
+async function handler(req, res) {
   if (req.method === "GET") {
     try {
       // Urgent-first ordering happens here, in the database query itself -

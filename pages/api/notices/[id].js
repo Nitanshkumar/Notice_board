@@ -6,7 +6,10 @@ function parseId(rawId) {
   return Number.isInteger(id) && id > 0 ? id : null;
 }
 
-module.exports = async function handler(req, res) {
+module.exports = handler;
+module.exports.default = handler;
+
+async function handler(req, res) {
   const id = parseId(req.query.id);
   if (id === null) {
     return res.status(400).json({ error: "Invalid notice id" });
