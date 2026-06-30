@@ -2,152 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base Styles */
+/* ==================== BASE STYLES ==================== */
 html,
 body {
-  @apply bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 text-dark;
-  min-height: 100vh;
+  @apply min-h-screen text-dark;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  @apply w-2;
+/* ==================== ANIMATIONS ==================== */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-::-webkit-scrollbar-track {
-  @apply bg-slate-100;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-primary rounded-full hover:bg-blue-700;
-}
-
-/* Selection styles */
-::selection {
-  @apply bg-primary text-white;
-}
-
-::-moz-selection {
-  @apply bg-primary text-white;
-}
-
-/* Focus visible styles for accessibility */
-*:focus-visible {
-  @apply outline-none ring-2 ring-primary ring-offset-2;
-}
-
-/* Smooth transitions globally */
-* {
-  @apply transition-colors duration-300;
-}
-
-/* Link styles */
-a {
-  @apply text-primary hover:text-blue-700 hover:underline transition-colors duration-250;
-}
-
-a:focus-visible {
-  @apply ring-2 ring-primary ring-offset-2 rounded px-1;
-}
-
-/* Button focus states */
-button {
-  @apply transition-all duration-250;
-}
-
-button:active {
-  @apply scale-95;
-}
-
-/* Input and textarea focus states */
-input:focus,
-textarea:focus,
-select:focus {
-  @apply ring-2 ring-primary ring-offset-1 border-primary;
-}
-
-/* Placeholder styling */
-input::placeholder,
-textarea::placeholder {
-  @apply text-gray-400;
-}
-
-/* Headings styling */
-h1, h2, h3, h4, h5, h6 {
-  @apply font-display font-bold tracking-tight text-dark;
-}
-
-h1 {
-  @apply text-4xl lg:text-5xl;
-}
-
-h2 {
-  @apply text-3xl lg:text-4xl;
-}
-
-h3 {
-  @apply text-2xl lg:text-3xl;
-}
-
-/* Code blocks */
-code {
-  @apply bg-gray-100 text-urgent px-2 py-1 rounded text-sm font-mono;
-}
-
-pre {
-  @apply bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto;
-}
-
-pre code {
-  @apply bg-transparent text-gray-100 px-0 py-0;
-}
-
-/* Paragraph spacing */
-p {
-  @apply text-base leading-relaxed text-gray-700;
-}
-
-/* List styling */
-ul, ol {
-  @apply list-inside space-y-2;
-}
-
-ul li {
-  @apply list-disc;
-}
-
-ol li {
-  @apply list-decimal;
-}
-
-/* Table styling */
-table {
-  @apply w-full border-collapse;
-}
-
-th, td {
-  @apply px-4 py-2 text-left border-b border-gray-200;
-}
-
-th {
-  @apply bg-gradient-to-r from-primary to-blue-600 text-white font-semibold;
-}
-
-tr:hover {
-  @apply bg-blue-50;
-}
-
-/* Divider */
-hr {
-  @apply border-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent my-8;
-}
-
-/* Animation utilities */
 @keyframes shimmer {
   0% {
     background-position: -1000px 0;
@@ -159,22 +39,312 @@ hr {
 
 @keyframes glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4), inset 0 0 20px rgba(240, 147, 251, 0.1);
   }
   50% {
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+    text-shadow: 0 0 20px rgba(240, 147, 251, 0.8), 0 0 30px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 0 40px rgba(240, 147, 251, 0.6), inset 0 0 20px rgba(79, 172, 254, 0.2);
   }
 }
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+@keyframes bounce-smooth {
+  0%, 100% {
+    transform: translateY(0);
   }
   50% {
     transform: translateY(-10px);
   }
 }
 
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes blob {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow: 0 0 10px #fff, 0 0 20px #ff00de, 0 0 30px #ff00de, 0 0 40px #ff00de;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar {
+  @apply w-3 h-3;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full;
+  background: linear-gradient(180deg, #667eea, #764ba2);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #764ba2, #f093fb);
+  box-shadow: 0 0 20px rgba(240, 147, 251, 0.5);
+}
+
+/* ==================== SELECTION & FOCUS ==================== */
+::selection {
+  @apply bg-gradient-to-r from-purple-500 to-pink-500 text-white;
+}
+
+::-moz-selection {
+  @apply bg-gradient-to-r from-purple-500 to-pink-500 text-white;
+}
+
+*:focus-visible {
+  @apply outline-none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3), 0 0 0 6px rgba(240, 147, 251, 0.2);
+}
+
+/* ==================== GLOBAL TRANSITIONS ==================== */
+* {
+  @apply transition-all duration-300;
+}
+
+/* ==================== LINKS ==================== */
+a {
+  @apply relative text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 font-semibold;
+  text-decoration: none;
+  position: relative;
+}
+
+a::after {
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300;
+  content: '';
+}
+
+a:hover::after {
+  @apply w-full;
+}
+
+a:focus-visible {
+  @apply rounded px-1;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* ==================== BUTTONS ==================== */
+button {
+  @apply relative overflow-hidden font-semibold transition-all duration-300;
+}
+
+button::before {
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent;
+  content: '';
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+  opacity: 0.2;
+}
+
+button:hover::before {
+  transform: translateX(100%);
+}
+
+button:active {
+  @apply scale-95;
+}
+
+/* ==================== INPUTS & FORMS ==================== */
+input:focus,
+textarea:focus,
+select:focus {
+  @apply ring-2 ring-offset-2 border-transparent;
+  ring-color: rgba(240, 147, 251, 0.5);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.3), inset 0 0 10px rgba(79, 172, 254, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  @apply text-gray-400 italic;
+}
+
+/* ==================== TYPOGRAPHY ==================== */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-display font-bold tracking-tight;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h1 {
+  @apply text-5xl lg:text-6xl mb-4;
+  animation: float 4s ease-in-out infinite;
+}
+
+h2 {
+  @apply text-4xl lg:text-5xl mb-3;
+  animation: float 4s ease-in-out infinite 0.2s;
+}
+
+h3 {
+  @apply text-3xl lg:text-4xl mb-2;
+  animation: float 4s ease-in-out infinite 0.4s;
+}
+
+h4 {
+  @apply text-2xl lg:text-3xl;
+}
+
+h5 {
+  @apply text-xl lg:text-2xl;
+}
+
+h6 {
+  @apply text-lg lg:text-xl;
+}
+
+/* ==================== CODE BLOCKS ==================== */
+code {
+  @apply px-3 py-1.5 rounded-lg text-sm font-mono font-semibold;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+  color: #667eea;
+  border: 1px solid rgba(240, 147, 251, 0.3);
+}
+
+pre {
+  @apply p-6 rounded-xl overflow-x-auto shadow-2xl;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid rgba(240, 147, 251, 0.2);
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+}
+
+pre code {
+  @apply bg-transparent text-gray-100 px-0 py-0;
+  color: inherit;
+}
+
+/* ==================== PARAGRAPHS ==================== */
+p {
+  @apply text-base lg:text-lg leading-relaxed text-gray-700;
+  animation: slide-in-right 0.6s ease-out;
+}
+
+/* ==================== LISTS ==================== */
+ul, ol {
+  @apply list-inside space-y-3 ml-4;
+}
+
+ul li, ol li {
+  @apply relative pl-4;
+  animation: slide-in-left 0.5s ease-out;
+}
+
+ul li::before {
+  @apply absolute left-0 w-2 h-2 rounded-full mt-2;
+  content: '';
+  background: linear-gradient(135deg, #667eea, #f093fb);
+  box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
+}
+
+ol {
+  @apply list-decimal;
+}
+
+/* ==================== TABLES ==================== */
+table {
+  @apply w-full border-collapse rounded-xl overflow-hidden shadow-2xl;
+}
+
+th, td {
+  @apply px-6 py-4 text-left border-b border-purple-200;
+  transition: all 0.3s ease;
+}
+
+th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  @apply text-white font-bold text-lg;
+}
+
+tr:hover {
+  background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+  box-shadow: inset 0 0 20px rgba(240, 147, 251, 0.1);
+}
+
+tbody tr {
+  animation: slide-in-right 0.5s ease-out;
+}
+
+/* ==================== DIVIDERS ==================== */
+hr {
+  @apply my-8 border-0 h-1;
+  background: linear-gradient(90deg, transparent, #667eea, #764ba2, #f093fb, transparent);
+  box-shadow: 0 0 20px rgba(240, 147, 251, 0.3);
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+
+/* Animations */
 .animate-shimmer {
   animation: shimmer 2s infinite;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
@@ -189,76 +359,289 @@ hr {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Loading skeleton */
+.animate-pulse-ring {
+  animation: pulse-ring 2s infinite;
+}
+
+.animate-bounce-smooth {
+  animation: bounce-smooth 2s ease-in-out infinite;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.6s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.6s ease-out;
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animate-neon {
+  animation: neon-flicker 3s infinite;
+}
+
+/* Loading Skeleton */
 .skeleton {
-  @apply bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded;
+  @apply rounded-lg;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
 
-/* Badge animations */
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rotate-gradient 6s ease infinite;
+}
+
+/* Glow Box */
+.glow-box {
+  @apply relative;
+  box-shadow: 0 0 20px rgba(240, 147, 251, 0.4), inset 0 0 20px rgba(102, 126, 234, 0.1);
+  border: 2px solid rgba(240, 147, 251, 0.3);
+}
+
+.glow-box:hover {
+  @apply scale-105;
+  box-shadow: 0 0 40px rgba(240, 147, 251, 0.6), inset 0 0 20px rgba(102, 126, 234, 0.2);
+}
+
+/* Badge */
 .badge {
-  @apply animate-fadeIn;
+  @apply inline-flex items-center px-4 py-2 rounded-full text-sm font-bold;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(240, 147, 251, 0.2));
+  border: 1.5px solid rgba(240, 147, 251, 0.4);
+  animation: float 4s ease-in-out infinite;
 }
 
-/* Card hover effect */
+.badge-primary {
+  @apply bg-gradient-to-r from-blue-400 to-blue-600 text-white;
+}
+
+.badge-secondary {
+  @apply bg-gradient-to-r from-emerald-400 to-emerald-600 text-white;
+}
+
+.badge-danger {
+  @apply bg-gradient-to-r from-red-400 to-red-600 text-white;
+}
+
+.badge-warning {
+  @apply bg-gradient-to-r from-amber-400 to-amber-600 text-white;
+}
+
+/* Card */
+.card {
+  @apply rounded-2xl p-8 backdrop-blur-md;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  border: 1.5px solid rgba(240, 147, 251, 0.2);
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+}
+
 .card:hover {
-  @apply shadow-xl translate-y-0.5 scale-100;
+  @apply scale-105;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+  box-shadow: 0 30px 80px rgba(240, 147, 251, 0.4);
+  border-color: rgba(240, 147, 251, 0.5);
 }
 
-/* Button interactions */
-.btn {
-  @apply active:shadow-inner;
+.card-compact {
+  @apply rounded-xl p-6;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7));
+  border: 1px solid rgba(240, 147, 251, 0.2);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
 }
 
-/* Success, warning, error, info states */
+/* Alerts */
 .alert {
-  @apply p-4 rounded-lg font-semibold flex items-center gap-3;
+  @apply p-6 rounded-xl font-bold flex items-center gap-4 border-2 shadow-lg;
+  animation: slide-in-right 0.5s ease-out;
 }
 
 .alert-success {
-  @apply bg-emerald-100 text-emerald-800 border-l-4 border-secondary;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 252, 164, 0.1));
+  border-color: rgba(16, 185, 129, 0.5);
+  @apply text-emerald-800;
 }
 
 .alert-warning {
-  @apply bg-amber-100 text-amber-800 border-l-4 border-accent;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1));
+  border-color: rgba(245, 158, 11, 0.5);
+  @apply text-amber-800;
 }
 
 .alert-error {
-  @apply bg-red-100 text-red-800 border-l-4 border-urgent;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(248, 113, 113, 0.1));
+  border-color: rgba(239, 68, 68, 0.5);
+  @apply text-red-800;
 }
 
 .alert-info {
-  @apply bg-blue-100 text-blue-800 border-l-4 border-primary;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.1));
+  border-color: rgba(59, 130, 246, 0.5);
+  @apply text-blue-800;
 }
 
-/* Toast notification styles */
+/* Toast Notifications */
 .toast {
-  @apply fixed bottom-4 right-4 p-4 rounded-lg shadow-lg animate-slideUp;
+  @apply fixed bottom-6 right-6 p-6 rounded-xl shadow-2xl font-bold min-w-80;
+  animation: slide-in-right 0.5s ease-out;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
 }
 
 .toast-success {
-  @apply bg-secondary text-white;
+  background: linear-gradient(135deg, #10b981, #06fca4);
+  @apply text-white;
 }
 
 .toast-error {
-  @apply bg-urgent text-white;
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  @apply text-white;
 }
 
 .toast-info {
-  @apply bg-primary text-white;
+  background: linear-gradient(135deg, #3b82f6, #93c5fd);
+  @apply text-white;
 }
 
 .toast-warning {
-  @apply bg-accent text-white;
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  @apply text-white;
 }
 
-/* Responsive utilities */
-@media (max-width: 640px) {
+/* Input */
+.input {
+  @apply w-full px-6 py-3 rounded-xl border-2 font-semibold;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+  border-color: rgba(240, 147, 251, 0.3);
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  @apply border-transparent;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 30px rgba(240, 147, 251, 0.4), inset 0 0 10px rgba(102, 126, 234, 0.1);
+}
+
+.input-lg {
+  @apply px-6 py-4 text-lg;
+}
+
+/* Label */
+.label {
+  @apply block text-sm font-bold mb-3;
+  background: linear-gradient(135deg, #667eea, #f093fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Buttons with gradient */
+.btn {
+  @apply relative px-8 py-3 rounded-xl font-bold inline-flex items-center justify-center gap-3 overflow-hidden;
+  background-size: 200% 200%;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  @apply text-white shadow-lg;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #764ba2, #f093fb);
+  @apply shadow-2xl scale-105;
+  box-shadow: 0 20px 40px rgba(240, 147, 251, 0.4);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #10b981, #06fca4);
+  @apply text-white shadow-lg;
+}
+
+.btn-secondary:hover {
+  @apply shadow-2xl scale-105;
+  box-shadow: 0 20px 40px rgba(6, 252, 164, 0.4);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  @apply text-white shadow-lg;
+}
+
+.btn-accent:hover {
+  @apply shadow-2xl scale-105;
+  box-shadow: 0 20px 40px rgba(251, 191, 36, 0.4);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  @apply text-white shadow-lg;
+}
+
+.btn-danger:hover {
+  @apply shadow-2xl scale-105;
+  box-shadow: 0 20px 40px rgba(248, 113, 113, 0.4);
+}
+
+.btn-outline {
+  @apply border-2 bg-white text-transparent bg-clip-text;
+  border-image: linear-gradient(135deg, #667eea, #f093fb) 1;
+}
+
+.btn-outline:hover {
+  @apply scale-105 shadow-lg;
+  box-shadow: 0 0 20px rgba(240, 147, 251, 0.4);
+}
+
+.btn-ghost {
+  @apply text-gradient-text hover:bg-white hover:bg-opacity-10;
+}
+
+.btn-ghost:hover {
+  @apply shadow-lg;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
   body {
-    @apply text-sm;
+    @apply text-base;
   }
 
+  h1 {
+    @apply text-3xl lg:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl lg:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl lg:text-2xl;
+  }
+
+  .card {
+    @apply p-4;
+  }
+
+  .toast {
+    @apply bottom-4 right-4 min-w-64;
+  }
+
+  .btn {
+    @apply px-6 py-2 text-sm;
+  }
+}
+
+@media (max-width: 640px) {
   h1 {
     @apply text-2xl;
   }
@@ -269,5 +652,21 @@ hr {
 
   h3 {
     @apply text-lg;
+  }
+
+  .card {
+    @apply p-3 rounded-lg;
+  }
+
+  .alert {
+    @apply p-4 gap-2;
+  }
+
+  table {
+    @apply text-sm;
+  }
+
+  th, td {
+    @apply px-3 py-2;
   }
 }
