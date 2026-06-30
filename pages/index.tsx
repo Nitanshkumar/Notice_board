@@ -1,24 +1,31 @@
 import { useState } from "react";
+import type { GetServerSideProps } from "next";
 import Link from "next/link";
+import type { Notice } from "@prisma/client";
 import prisma from "../lib/prisma";
+import type { NoticeView } from "../lib/validators";
 import NoticeCard from "../components/NoticeCard";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 
-export async function getServerSideProps() {
+type HomePageProps = {
+  initialNotices: NoticeView[];
+};
+
+export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
   const notices = await prisma.notice.findMany({
     orderBy: [{ priority: "desc" }, { publishDate: "desc" }],
   });
 
   return {
     props: {
-      initialNotices: JSON.parse(JSON.stringify(notices)),
+      initialNotices: JSON.parse(JSON.stringify(notices)) as NoticeView[],
     },
   };
-}
+};
 
-export default function Home({ initialNotices }) {
-  const [notices, setNotices] = useState(initialNotices);
-  const [target, setTarget] = useState(null);
+export default function Home({ initialNotices }: HomePageProps) {
+  const [notices, setNotices] = useState<NoticeView[]>(initialNotices);
+  const [target, setTarget] = useState<NoticeView | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
 

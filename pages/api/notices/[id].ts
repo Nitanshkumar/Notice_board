@@ -1,15 +1,16 @@
-const prisma = require("../../../lib/prisma");
-const { noticeUpdateSchema, formatZodErrors } = require("../../../lib/validators");
+import type { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../../lib/prisma";
+import { noticeUpdateSchema, formatZodErrors } from "../../../lib/validators";
 
-function parseId(rawId) {
+type ErrorResponse = { error: string; fields?: Record<string, string> };
+
+function parseId(rawId: string | string[] | undefined) {
+  if (typeof rawId !== "string") return null;
   const id = Number(rawId);
   return Number.isInteger(id) && id > 0 ? id : null;
 }
 
-module.exports = handler;
-module.exports.default = handler;
-
-async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<unknown | ErrorResponse>) {
   const id = parseId(req.query.id);
   if (id === null) {
     return res.status(400).json({ error: "Invalid notice id" });
@@ -21,7 +22,8 @@ async function handler(req, res) {
       if (!notice) return res.status(404).json({ error: "Notice not found" });
       return res.status(200).json(notice);
     } catch (err) {
-      console.error(`GET /api/notices/${id} failed:`, err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`GET /api/notices/${id} failed:`, message);
       return res.status(500).json({ error: "Failed to fetch notice" });
     }
   }
@@ -54,7 +56,8 @@ async function handler(req, res) {
       });
       return res.status(200).json(updated);
     } catch (err) {
-      console.error(`PUT /api/notices/${id} failed:`, err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`PUT /api/notices/${id} failed:`, message);
       return res.status(500).json({ error: "Failed to update notice" });
     }
   }
@@ -67,11 +70,12 @@ async function handler(req, res) {
       await prisma.notice.delete({ where: { id } });
       return res.status(204).end();
     } catch (err) {
-      console.error(`DELETE /api/notices/${id} failed:`, err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`DELETE /api/notices/${id} failed:`, message);
       return res.status(500).json({ error: "Failed to delete notice" });
     }
   }
 
   res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
   return res.status(405).json({ error: `Method ${req.method} not allowed` });
-};
+}

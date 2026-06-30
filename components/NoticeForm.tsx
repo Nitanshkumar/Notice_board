@@ -1,40 +1,55 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import { useRouter } from "next/router";
+import type { Category, Priority, NoticeView } from "../lib/validators";
 
-const CATEGORIES = ["EXAM", "EVENT", "GENERAL"];
+const CATEGORIES: Category[] = ["EXAM", "EVENT", "GENERAL"];
 
-function toDateInputValue(value) {
+function toDateInputValue(value: string | Date | null | undefined) {
   if (!value) return "";
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return "";
   return d.toISOString().slice(0, 10);
 }
 
-export default function NoticeForm({ mode, initialNotice }) {
+type CreateNoticeFormProps = {
+  mode: "create";
+  initialNotice?: undefined;
+};
+
+type EditNoticeFormProps = {
+  mode: "edit";
+  initialNotice: NoticeView;
+};
+
+type NoticeFormProps = CreateNoticeFormProps | EditNoticeFormProps;
+
+type FormErrors = Partial<Record<keyof Omit<NoticeView, "id"> | "form" | "image", string>>;
+
+export default function NoticeForm({ mode, initialNotice }: NoticeFormProps) {
   const router = useRouter();
   const isEdit = mode === "edit";
 
-  const [title, setTitle] = useState(initialNotice?.title || "");
-  const [body, setBody] = useState(initialNotice?.body || "");
-  const [category, setCategory] = useState(initialNotice?.category || "GENERAL");
-  const [priority, setPriority] = useState(initialNotice?.priority || "NORMAL");
+  const [title, setTitle] = useState(initialNotice?.title ?? "");
+  const [body, setBody] = useState(initialNotice?.body ?? "");
+  const [category, setCategory] = useState<Category>(initialNotice?.category ?? "GENERAL");
+  const [priority, setPriority] = useState<Priority>(initialNotice?.priority ?? "NORMAL");
   const [publishDate, setPublishDate] = useState(toDateInputValue(initialNotice?.publishDate) || "");
-  const [imageUrl, setImageUrl] = useState(initialNotice?.imageUrl || "");
-  const [imagePreview, setImagePreview] = useState(initialNotice?.imageUrl || "");
+  const [imageUrl, setImageUrl] = useState<string>(initialNotice?.imageUrl ?? "");
+  const [imagePreview, setImagePreview] = useState<string>(initialNotice?.imageUrl ?? "");
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
 
   function clientSideErrors() {
-    const next = {};
+    const next: FormErrors = {};
     if (!title.trim() || title.trim().length < 3) next.title = "Title must be at least 3 characters.";
     if (!body.trim() || body.trim().length < 10) next.body = "Body must be at least 10 characters.";
     if (!publishDate || Number.isNaN(new Date(publishDate).getTime())) next.publishDate = "Enter a valid date.";
     return next;
   }
 
-  function handleImageChange(e) {
+  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     // Bonus image support: encode small images as a data URL so the demo
@@ -46,8 +61,11 @@ export default function NoticeForm({ mode, initialNotice }) {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      setImageUrl(reader.result);
-      setImagePreview(reader.result);
+      const result = reader.result;
+      if (typeof result === "string") {
+        setImageUrl(result);
+        setImagePreview(result);
+      }
       setErrors((prev) => ({ ...prev, image: undefined }));
     };
     reader.readAsDataURL(file);
@@ -142,7 +160,7 @@ export default function NoticeForm({ mode, initialNotice }) {
           <select
             id="category"
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value as Category)}
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
             {CATEGORIES.map((c) => (

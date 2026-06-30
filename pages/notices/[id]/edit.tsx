@@ -1,9 +1,16 @@
 import Link from "next/link";
+import type { GetServerSideProps } from "next";
+import type { Notice } from "@prisma/client";
 import prisma from "../../../lib/prisma";
+import type { NoticeView } from "../../../lib/validators";
 import NoticeForm from "../../../components/NoticeForm";
 
-export async function getServerSideProps({ params }) {
-  const id = Number(params.id);
+type EditNoticePageProps = {
+  notice: NoticeView;
+};
+
+export const getServerSideProps: GetServerSideProps<EditNoticePageProps> = async ({ params }) => {
+  const id = Number(params?.id);
   if (!Number.isInteger(id)) {
     return { notFound: true };
   }
@@ -15,12 +22,12 @@ export async function getServerSideProps({ params }) {
 
   return {
     props: {
-      notice: JSON.parse(JSON.stringify(notice)),
+      notice: JSON.parse(JSON.stringify(notice)) as NoticeView,
     },
   };
-}
+};
 
-export default function EditNoticePage({ notice }) {
+export default function EditNoticePage({ notice }: EditNoticePageProps) {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
       <Link href="/" className="text-sm text-blue-600 hover:underline">

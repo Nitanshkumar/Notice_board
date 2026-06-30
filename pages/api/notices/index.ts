@@ -1,22 +1,17 @@
-const prisma = require("../../../lib/prisma");
-const { noticeSchema, formatZodErrors } = require("../../../lib/validators");
+import type { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../../lib/prisma";
+import { noticeSchema, formatZodErrors } from "../../../lib/validators";
 
-module.exports = handler;
-module.exports.default = handler;
-
-async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     try {
-      // Urgent-first ordering happens here, in the database query itself -
-      // priority DESC puts URGENT ('U' > 'N' is irrelevant; Prisma sorts enums
-      // by declaration order, so URGENT is declared after NORMAL) ahead of
-      // NORMAL, then newest publishDate first within each group.
       const notices = await prisma.notice.findMany({
         orderBy: [{ priority: "desc" }, { publishDate: "desc" }],
       });
       return res.status(200).json(notices);
     } catch (err) {
-      console.error("GET /api/notices failed:", err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("GET /api/notices failed:", message);
       return res.status(500).json({ error: "Failed to fetch notices" });
     }
   }
@@ -45,11 +40,12 @@ async function handler(req, res) {
       });
       return res.status(201).json(notice);
     } catch (err) {
-      console.error("POST /api/notices failed:", err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("POST /api/notices failed:", message);
       return res.status(500).json({ error: "Failed to create notice" });
     }
   }
 
   res.setHeader("Allow", ["GET", "POST"]);
   return res.status(405).json({ error: `Method ${req.method} not allowed` });
-};
+}

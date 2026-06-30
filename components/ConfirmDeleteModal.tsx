@@ -1,4 +1,12 @@
-export default function ConfirmDeleteModal({ open, noticeTitle, onCancel, onConfirm, deleting }) {
+type ConfirmDeleteModalProps = {
+  open: boolean;
+  noticeTitle?: string | null;
+  onCancel: () => void;
+  onConfirm: () => void;
+  deleting: boolean;
+};
+
+export default function ConfirmDeleteModal({ open, noticeTitle, onCancel, onConfirm, deleting }: ConfirmDeleteModalProps) {
   if (!open) return null;
 
   return (

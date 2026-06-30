@@ -1,8 +1,15 @@
-require("dotenv").config();
-const { PrismaClient } = require("@prisma/client");
+import "dotenv/config";
+import { PrismaClient, type Category, type Priority } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
-const demoNotices = [
+const demoNotices: Array<{
+  title: string;
+  body: string;
+  category: Category;
+  priority: Priority;
+  publishDate: Date;
+}> = [
   {
     title: "Hall Ticket Released for Semester Exams",
     body: "Hall tickets for the upcoming semester examinations are now available for download from the student portal. Carry a printed copy along with a valid college ID to the exam hall.",

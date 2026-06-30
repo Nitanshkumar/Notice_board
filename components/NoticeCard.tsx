@@ -1,8 +1,9 @@
+import type { NoticeView } from "../lib/validators";
 import Link from "next/link";
 import UrgentBadge from "./UrgentBadge";
 import CategoryChip from "./CategoryChip";
 
-function formatDate(dateStr) {
+function formatDate(dateStr: string) {
   try {
     return new Date(dateStr).toLocaleDateString("en-IN", {
       day: "2-digit",
@@ -14,7 +15,12 @@ function formatDate(dateStr) {
   }
 }
 
-export default function NoticeCard({ notice, onDeleteClick }) {
+type NoticeCardProps = {
+  notice: NoticeView;
+  onDeleteClick: (notice: NoticeView) => void;
+};
+
+export default function NoticeCard({ notice, onDeleteClick }: NoticeCardProps) {
   const isUrgent = notice.priority === "URGENT";
 
   return (
