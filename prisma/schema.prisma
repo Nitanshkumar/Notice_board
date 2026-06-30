@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  EXAM
+  EVENT
+  GENERAL
+}
+
+enum Priority {
+  NORMAL
+  URGENT
+}
+
+model Notice {
+  id          Int      @id @default(autoincrement())
+  title       String
+  body        String   @db.Text
+  category    Category @default(GENERAL)
+  priority    Priority @default(NORMAL)
+  publishDate DateTime
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Urgent-first ordering is done via Prisma orderBy on (priority, publishDate),
+  // so this index lets the database serve that sort efficiently.
+  @@index([priority, publishDate])
+}
